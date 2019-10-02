@@ -1,0 +1,179 @@
+class Character {
+    constructor(ctx) {
+        this.ctx = ctx;
+        this.x = 100;
+        this.y0 = 78;
+        this.y = this.y0;
+        this.h0 = 45;
+        this.h = this.h0;
+        this.w = 45;
+
+
+        this.vx = 0;
+        this.vy = 0;
+        this.g = 0.05;
+
+        this.actions = {
+            right: false,
+            left: false,
+            up: false,
+            down: false,
+            jump: false,
+            shoot: false
+        }
+
+        this.weapons = [];
+        this.weapons.push(new Weapon(this));
+
+        this.img = new Image();
+        this.img.src = "img/marcoR.png";
+        this.img.frames = 8;
+        this.img.frameIndex = 1;
+        this.img.levels = 2;
+        this._setListeners();
+        this.ticks = 0;
+    }
+
+    draw() {
+        this.ctx.drawImage(
+            this.img,
+            0, // sx
+            0, // sy
+            this.img.width, // sw
+            this.img.height, // sh
+            this.x, // dx
+            this.y, // dy
+            this.w, // dw
+            this.h // dh
+        )
+
+        this.weapons[0].draw()
+    }
+
+    move() {
+        this._animate();
+        this._applyActions();
+        this.x += this.vx;
+
+        if (this._isJumping()) {
+            this.vy += this.g;
+            this.y += this.vy;
+          } else {
+            this.vy = 0;
+
+            if (this._isCrouch()) {
+                this.y = this.y0 + this.h;
+            } else {
+                this.y = this.y0;
+            }
+
+        }
+
+        this.weapons[0].move()
+
+    }
+
+    _setListeners() {
+        document.onkeydown = e => this._switchAction(e.keyCode, true)
+        document.onkeyup = e => this._switchAction(e.keyCode, false)
+    }
+
+    _applyActions() {
+
+        if (this.actions.up) {
+            this.img.src = "img/rectMora.PNG";
+        } else {
+            this._stand()
+        }
+
+        if (this.actions.right) {
+            this.vx = 1
+            this.img.src = "img/marcoR.png";
+        } else if (this.actions.left) {
+            this.vx = -1
+            this.img.src = "img/marcoL.png";
+        } else {
+            this.vx = 0
+        }
+
+        if (this.actions.down) {
+            this._crouch()
+        }
+
+        if (this.actions.jump) {
+            this._jump()
+        }
+
+        if (this.actions.shoot) {
+            this.weapons[0].shoot()
+        }
+
+    }
+
+    _jump() {
+        if (!this._isJumping()) {
+            this.y -= 5;
+            this.vy -= 2.5;
+        }
+    }
+
+    _crouch() {
+        if (!this._isCrouch()) {
+            this.h = this.h0 / 2
+            this.y += this.h
+        }
+    }
+
+    _isCrouch() {
+        return this.h !== this.h0
+    }
+
+    _stand() {
+        this.h = this.h0
+    }
+
+    _isJumping() {
+        return this.y < this.y0
+    }
+
+    _switchAction(key, apply) {
+
+        switch (key) {
+            case arrDown:
+                this.actions.down = apply
+                break;
+
+            case arrUp:
+                this.actions.up = apply
+                break;
+
+            case arrLeft:
+                this.actions.left = apply
+                break;
+
+            case arrRight:
+                this.actions.right = apply
+                break;
+
+            case aKey:
+                this.actions.jump = apply
+                break;
+
+            case sKey:
+                this.actions.shoot = apply
+                break;
+        }
+    }
+
+
+
+    _animate() {
+        // this.tick++
+
+        // if (this.tick >= this.img.frames) {
+        //   this.img.frameIndex++
+        //   this.tick = 0
+        // }
+
+    }
+}
