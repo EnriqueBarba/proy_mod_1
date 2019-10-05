@@ -8,7 +8,6 @@ class Character {
         this.h = this.h0;
         this.w = 45;
 
-
         this.vx = 0;
         this.vy = 0;
         this.g = 0.05;
@@ -21,6 +20,8 @@ class Character {
             jump: false,
             shoot: false
         }
+
+        this.aim = "r";
 
         this.weapons = [];
         this.weapons.push(new Weapon(this));
@@ -58,6 +59,11 @@ class Character {
         if (this._isJumping()) {
             this.vy += this.g;
             this.y += this.vy;
+            
+            if (this.x <= 0) {
+                this.x = 0;
+            }
+
           } else {
             this.vy = 0;
 
@@ -65,6 +71,10 @@ class Character {
                 this.y = this.y0 + this.h;
             } else {
                 this.y = this.y0;
+            }
+
+            if (this.x <= 0) {
+                this.x = 0;
             }
 
         }
@@ -81,7 +91,8 @@ class Character {
     _applyActions() {
 
         if (this.actions.up) {
-            this.img.src = "img/rectMora.PNG";
+            this.img.src = "img/marcoU.PNG";
+            this.aim = "u";
         } else {
             this._stand()
         }
@@ -89,9 +100,11 @@ class Character {
         if (this.actions.right) {
             this.vx = 1
             this.img.src = "img/marcoR.png";
+            this.aim = "r";
         } else if (this.actions.left) {
             this.vx = -1
             this.img.src = "img/marcoL.png";
+            this.aim = "l";
         } else {
             this.vx = 0
         }
@@ -163,6 +176,7 @@ class Character {
                 this.actions.shoot = apply
                 break;
         }
+        
     }
 
 

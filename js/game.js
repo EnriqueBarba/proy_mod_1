@@ -40,9 +40,11 @@ class Game {
         
         if(this.char.actions.right && (this.char.x + this.char.w/2) >= this.ctx.canvas.width*0.65){
           this.bg.move();
+          this.char.x = this.ctx.canvas.width*0.65 - this.char.w/2;
         } else {
-          this.char.move();
+            
         }
+        this.char.move();
         
       }
 
@@ -51,7 +53,9 @@ class Game {
       }
 
       _checkCollisions(){
-
+        this.bg.platforms.forEach(plat => {
+          plat.collide(this.char)
+        })
       }
 
       _clearObstacles(){
