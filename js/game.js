@@ -18,6 +18,7 @@ class Game {
           this._draw()
           this._move()
           this._addObstacle()
+          this._checkPlatforms()
           this._checkCollisions()
           this._clearObstacles()
     
@@ -51,11 +52,35 @@ class Game {
       _addObstacle(){
 
       }
-
       _checkCollisions(){
-        this.bg.platforms.forEach(plat => {
-          plat.collide(this.char)
-        })
+
+      }
+
+      _checkPlatforms(){
+        debugger
+        const posiblePlats = this.bg.platforms.find(p => p.collide(this.char));
+
+        if (posiblePlats) {
+          if(this.char.y + this.char.h0 <= posiblePlats.y +posiblePlats.h){
+            this.char.y0 = posiblePlats.y
+          } else {
+            this.char.y0 = 150 - this.char.h0
+          }
+        } else {
+          this.char.y0 = 150 - this.char.h0
+        }
+
+        /*if(posiblePlats.length > 0){
+          posiblePlats.forEach(plat => {
+            if(plat.x + plat.w >= this.char.x){
+              if(plat.collideUp(this.char)){
+                  this.char.y0 = plat.y -this.char.h0
+              } 
+            }
+          })
+        }else{
+          this.char.y0 = 150 - this.char.h0
+        }*/
       }
 
       _clearObstacles(){

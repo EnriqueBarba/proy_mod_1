@@ -2,7 +2,7 @@ class Character {
     constructor(ctx) {
         this.ctx = ctx;
         this.x = 100;
-        this.y0 = 78;
+        this.y0 = 30;
         this.y = this.y0;
         this.h0 = 45;
         this.h = this.h0;
@@ -36,6 +36,7 @@ class Character {
     }
 
     draw() {
+        debugger
         this.ctx.drawImage(
             this.img,
             0, // sx

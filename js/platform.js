@@ -18,11 +18,22 @@ class Platform {
         this.x -= 1;
     }
 
-    collide(el) {
-        const colX = el.x + el.w > this.x && el.x < this.x + this.w
+    collide(char) {
+
+        return char.x > this.x && char.x < this.x +this.w;
+
+        /*
+        *  Marina
+        if (c.y + c.h <= e.y + e.img.height && c.vy >= 0 && c.x > e.x && c.x < e.x + e.w) {
+            return true
+        }
+        return false
+        */
+
+        /* const colX = el.x + el.w > this.x && el.x < this.x + this.w
         const colY = el.y + el.h > this.y && el.y < this.y + this.h
     
-        return colX && colY
+        return colX && colY*/
     }
 
 
