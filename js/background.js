@@ -35,7 +35,7 @@ class Background {
         const bgLimit = this.w*-1 + this.ctx.canvas.width
         
         if (this.x > bgLimit){
-            this.x -= 1;
+            this.x -= 0.5;
             this.platforms.forEach(plat => {plat.move()})
         }     
     }

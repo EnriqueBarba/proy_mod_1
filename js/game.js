@@ -62,13 +62,11 @@ class Game {
 
         if (posiblePlats) {
           if(this.char.y + this.char.h0 <= posiblePlats.y +posiblePlats.h){
-            this.char.y0 = posiblePlats.y
-          } else {
-            this.char.y0 = 150 - this.char.h0
-          }
-        } else {
+            this.char.y0 = posiblePlats.y - this.char.h0
+          } 
+        }else {
           this.char.y0 = 150 - this.char.h0
-        }
+        } 
 
         /*if(posiblePlats.length > 0){
           posiblePlats.forEach(plat => {
