@@ -46,8 +46,12 @@ class Game {
           if (this.bg.x < -3150 && this.bg.y <= 0){
             this.bg.y += 0.27;
           }
-
         } 
+
+        if(this._checkCharBarricade()){
+          this.char.vx = 0;
+        }
+
         this.char.move();
         
       }
@@ -55,7 +59,21 @@ class Game {
       _addObstacle(){
 
       }
+
+      _checkCharBarricade(){
+        const colChar = this.bg.barricades.some(barr => {
+          console.log(barr.collide(this.char))
+          return barr.collide(this.char)
+        })
+       return colChar
+      }
+
       _checkCollisions(){
+
+      
+        this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter(b => {
+          return !this.bg.barricades.some(barr => { return barr.collide(b) })
+        })
 
       }
 

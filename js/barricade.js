@@ -1,4 +1,4 @@
-class Platform {
+class Barricade {
     constructor(ctx, bg, x, y, w, h){
         this.ctx = ctx
         this.bg = bg
@@ -11,37 +11,31 @@ class Platform {
         this.img.src = "img/rectAmarillol.PNG";
     }
 
-    draw() {
-        //this.ctx.fillStyle = "red"
-        //this.ctx.fillRect(this.x, this.y, this.w, this.h);
+    draw(){
         this.ctx.drawImage(
             this.img,
             0, // sx
             0, // sy
-            1, // sw
-            1, // sh
+            10, // sw
+            10, // sh
             this.x, // dx
             this.y, // dy
             this.w, // dw
             this.h // dh
         )
+
     }
 
-    
-    move() {
+    move(){
         this.x -= 0.5;
 
-
     }
 
-    collide(char) {
+    collide(el) {
+        const colX = el.x + el.w > this.x && el.x < this.x + this.w
+        const colY = el.y + el.h > this.y && el.y < this.y + this.h
 
-        return char.x + char.w/2 > this.x
-            && char.x + char.w/2 < this.x + this.w 
-            && this.x < this.ctx.canvas.width
-            && this.x + this.w > 0
+        return colX && colY
 
     }
-
-
 }

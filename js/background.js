@@ -9,13 +9,22 @@ class Background {
         this.img = new Image();
         this.img.src = "img/mission1.png";
         this.platforms = [];
+        this.barricades = [];
         this.shape = shapeMap1;
+        this.barricadesMap = barricadesMap1;
 
         this.shape.forEach(plat =>{
             this.platforms.push(
                 new Platform(this.ctx, this, plat[0], plat[1], plat[2], plat[3])
             )
         })
+
+        this.barricadesMap.forEach(b =>{
+            this.barricades.push(
+                new Barricade(this.ctx, this, b[0], b[1], b[2], b[3])
+            )
+        })
+        
         
     }
 
@@ -28,6 +37,7 @@ class Background {
             this.h
             )
         this.platforms.forEach(plat => {plat.draw()})
+        this.barricades.forEach(barr => {barr.draw()})
     }
 
     move(){
@@ -37,6 +47,7 @@ class Background {
         if (this.x > bgLimit){
             this.x -= 0.5;
             this.platforms.forEach(plat => {plat.move()})
+            this.barricades.forEach(barr => {barr.move()})
         }
         
     }
