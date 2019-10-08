@@ -12,6 +12,8 @@ class Character {
         this.vy = 0;
         this.g = 0.05;
 
+        this.health = 100;
+
         this.actions = {
             right: false,
             left: false,

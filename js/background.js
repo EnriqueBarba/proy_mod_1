@@ -20,14 +20,14 @@ class Background {
     }
 
     draw(){
-    this.ctx.drawImage(
-        this.img,
-        this.x,
-        this.y,
-        this.w,
-        this.h
-        )
-    this.platforms.forEach(plat => {plat.draw()})
+        this.ctx.drawImage(
+            this.img,
+            this.x,
+            this.y,
+            this.w,
+            this.h
+            )
+        this.platforms.forEach(plat => {plat.draw()})
     }
 
     move(){
@@ -37,7 +37,8 @@ class Background {
         if (this.x > bgLimit){
             this.x -= 0.5;
             this.platforms.forEach(plat => {plat.move()})
-        }     
+        }
+        
     }
 
 }

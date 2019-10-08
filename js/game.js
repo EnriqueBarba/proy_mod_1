@@ -42,9 +42,12 @@ class Game {
         if(this.char.actions.right && (this.char.x + this.char.w/2) >= this.ctx.canvas.width*0.65){
           this.bg.move();
           this.char.x = this.ctx.canvas.width*0.65 - this.char.w/2;
-        } else {
-            
-        }
+
+          if (this.bg.x < -3150 && this.bg.y <= 0){
+            this.bg.y += 0.27;
+          }
+
+        } 
         this.char.move();
         
       }
@@ -57,32 +60,27 @@ class Game {
       }
 
       _checkPlatforms(){
-        debugger
+        
         const posiblePlats = this.bg.platforms.find(p => p.collide(this.char));
 
         if (posiblePlats) {
+          //console.log('obstaculo',posiblePlats.y)
+          //console.log('player',this.char.y)
+
           if(this.char.y + this.char.h0 <= posiblePlats.y +posiblePlats.h){
             this.char.y0 = posiblePlats.y - this.char.h0
           } 
-        }else {
+        } else {
           this.char.y0 = 150 - this.char.h0
         } 
-
-        /*if(posiblePlats.length > 0){
-          posiblePlats.forEach(plat => {
-            if(plat.x + plat.w >= this.char.x){
-              if(plat.collideUp(this.char)){
-                  this.char.y0 = plat.y -this.char.h0
-              } 
-            }
-          })
-        }else{
-          this.char.y0 = 150 - this.char.h0
-        }*/
       }
 
       _clearObstacles(){
-
+        this.bg.platforms.forEach((p,i) => {
+          if(p.x + p.w <= 0){
+            this.bg.platforms.splice(i,1);
+          }
+        })
       }
 
       _gameOver(){
