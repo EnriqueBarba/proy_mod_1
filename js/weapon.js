@@ -52,4 +52,14 @@ class Weapon {
       this.bullets.forEach(b => b.move())
   
     }
+
+    _soldierShoot(){
+      this.bullets.push(
+        new Bullet(
+            this.shooter.ctx,
+            this.shooter.x + this.shooter.w * 0.75,
+            this.shooter.y + this.shooter.h * 0.5,
+            this.shooter.aim
+        ))
+    }
   }

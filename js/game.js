@@ -6,6 +6,8 @@ class Game {
 
         this.bg = new Background(ctx);
         this.char = new Character(ctx);
+        this.soldiers = [];
+        this.tickSoldier = 0;
     }
 
     start() {
@@ -18,6 +20,7 @@ class Game {
           this._draw()
           this._move()
           this._addObstacle()
+          this._addSoldier()
           this._checkPlatforms()
           this._checkCollisions()
           this._clearObstacles()
@@ -25,6 +28,16 @@ class Game {
           if (this.tick++ > 10000) {
             this.tick = 0
           }
+
+          if (this.tickSoldier++ > 10000) {
+            this.tick = 0
+          }
+          this.soldiers.forEach(s =>{
+            if(s.tickShoot % 200 === 0){
+              s.weapon._soldierShoot()
+            }
+          })
+
         }, FPS)
       }
 
@@ -35,6 +48,7 @@ class Game {
       _draw(){
         this.bg.draw();
         this.char.draw();
+        this.soldiers.forEach(s => s.draw())
       }
 
       _move(){
@@ -53,6 +67,7 @@ class Game {
         }
 
         this.char.move();
+        this.soldiers.forEach(s => s.move())
         
       }
 
@@ -60,9 +75,16 @@ class Game {
 
       }
 
+      _addSoldier(){
+        if(this.tickSoldier % 1000 === 0 && this.soldiers.length < 2){
+          this.soldiers.push(new Soldier(ctx))
+        }
+
+      }
+
       _checkCharBarricade(){
         const colChar = this.bg.barricades.some(barr => {
-          console.log(barr.collide(this.char))
+          //console.log(barr.collide(this.char))
           return barr.collide(this.char)
         })
        return colChar
@@ -70,9 +92,14 @@ class Game {
 
       _checkCollisions(){
 
-      
         this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter(b => {
           return !this.bg.barricades.some(barr => { return barr.collide(b) })
+        })
+
+        this.soldiers.forEach(s=>{
+          s.weapon.bullets = s.weapon.bullets.filter(b => {
+            return !this.bg.barricades.some(barr => { return barr.collide(b) })
+          })
         })
 
       }

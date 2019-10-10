@@ -4,7 +4,7 @@ class Character {
         this.x = 100;
         this.h0 = 45;
         this.h = this.h0;
-        this.w = 45;
+        this.w = 40;
         this.y0 = 150 - this.h0;
         this.y = this.y0;
 

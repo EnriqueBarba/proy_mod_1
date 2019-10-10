@@ -36,10 +36,16 @@ class Platform {
 
     collide(char) {
 
-        return char.x + char.w/2 > this.x
-            && char.x + char.w/2 < this.x + this.w 
-            && this.x < this.ctx.canvas.width
-            && this.x + this.w > 0
+        const colX = char.x + char.w/2 > this.x && char.x + char.w/2 < this.x + this.w
+
+        return colX 
+        
+        char.x + char.w/2 > this.x  && char.x + char.w/2 < this.x + this.w 
+        
+        //const colX = char.x + char.w/2 > this.x && char.x < this.x + this.w
+        //const colY = char.y + char.h > this.y && char.y < this.y + this.h
+            
+
 
     }
 
