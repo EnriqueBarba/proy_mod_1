@@ -34,13 +34,7 @@ class Bullet {
     }
   
     isVisible() {
-      return !(
-        this.x >= this.ctx.canvas.width ||
-        this.y >= this.ctx.canvas.height
-      )
+      return !(this.x >= this.ctx.canvas.width || this.x <= 0 )
     }
   
-    randomColor() {
-      return Math.random() * 255
-    } 
   }

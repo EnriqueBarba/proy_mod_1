@@ -118,13 +118,21 @@ class Game {
         } else {
           this.char.y0 = 150 - this.char.h0
         } 
+
       }
 
       _clearObstacles(){
+
         this.bg.platforms.forEach((p,i) => {
           if(p.x + p.w <= 0){
             this.bg.platforms.splice(i,1);
           }
+        })
+
+        this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter( b => b.isVisible() )
+
+        this.soldiers.forEach( s =>{
+            s.weapon.bullets = s.weapon.bullets.filter( b => b.isVisible() )
         })
       }
 
