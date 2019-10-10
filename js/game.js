@@ -24,6 +24,8 @@ class Game {
           this._checkPlatforms()
           this._checkCollisions()
           this._clearObstacles()
+          this._clearSoldier()
+          this._gameOver()
     
           if (this.tick++ > 10000) {
             this.tick = 0
@@ -79,7 +81,10 @@ class Game {
         if(this.tickSoldier % 1000 === 0 && this.soldiers.length < 2){
           this.soldiers.push(new Soldier(ctx))
         }
+      }
 
+      _clearSoldier(){
+        this.soldiers = this.soldiers.filter( s => s._isDead())
       }
 
       _checkCharBarricade(){
@@ -92,29 +97,48 @@ class Game {
 
       _checkCollisions(){
 
-        this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter(b => {
-          return !this.bg.barricades.some(barr => { return barr.collide(b) })
+        this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter( b => {
+          return !this.bg.barricades.some( barr => barr.collide(b) )
         })
 
-        this.soldiers.forEach(s=>{
-          s.weapon.bullets = s.weapon.bullets.filter(b => {
-            return !this.bg.barricades.some(barr => { return barr.collide(b) })
+        this.soldiers.forEach( s => {
+          s.weapon.bullets = s.weapon.bullets.filter( b => {
+            return !this.bg.barricades.some( barr => barr.collide(b) )
           })
         })
+
+        this.soldiers.forEach( s => {
+          this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter( b => {
+            if (s._hit(b)){
+              s._takeDmg(b.dmg)
+            }
+            return !s._hit(b) 
+          })
+        })
+
+        this.soldiers.forEach( s => {
+          s.weapon.bullets = s.weapon.bullets.filter( b => {
+            if (this.char._hit(b)) {  
+              this.char._takeDmg(b.dmg)
+            }
+            return !this.char._hit(b)
+          })
+        })
+
 
       }
 
       _checkPlatforms(){
         
-        const posiblePlats = this.bg.platforms.find(p => p.collide(this.char));
+        const posiblePlats = this.bg.platforms.find( p => p.collide(this.char) );
 
         if (posiblePlats) {
           //console.log('obstaculo',posiblePlats.y)
           //console.log('player',this.char.y)
-
-          if(this.char.y + this.char.h0 <= posiblePlats.y +posiblePlats.h){
+          if (this.char.y + this.char.h0 <= posiblePlats.y +posiblePlats.h){
             this.char.y0 = posiblePlats.y - this.char.h0
           } 
+
         } else {
           this.char.y0 = 150 - this.char.h0
         } 
@@ -131,12 +155,22 @@ class Game {
 
         this.char.weapons[0].bullets = this.char.weapons[0].bullets.filter( b => b.isVisible() )
 
-        this.soldiers.forEach( s =>{
-            s.weapon.bullets = s.weapon.bullets.filter( b => b.isVisible() )
-        })
+        this.soldiers.forEach( s => { s.weapon.bullets = s.weapon.bullets.filter( b => b.isVisible() ) } )
       }
 
       _gameOver(){
+
+        if(this.char._isDead()){
+          clearInterval(this.intervalId)
+          this.ctx.fillStyle = "red"
+          this.ctx.font = "40px Comic Sans MS";
+          this.ctx.textAlign = "center";
+          this.ctx.fillText(
+            "GAME OVER",
+            this.ctx.canvas.width / 2,
+            this.ctx.canvas.height / 2
+          );
+        }
 
       }
 

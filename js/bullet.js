@@ -8,6 +8,7 @@ class Bullet {
       this.h = 2 * this.r
       this.aim = aim;
   
+      this.dmg = 10
       this.speed = 1.2
       this.vy = 0
   
@@ -36,5 +37,5 @@ class Bullet {
     isVisible() {
       return !(this.x >= this.ctx.canvas.width || this.x <= 0 )
     }
-  
+
   }

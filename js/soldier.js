@@ -76,6 +76,14 @@ class Soldier{
 
     }
 
+    _takeDmg(dmg){
+        this.health -= dmg;
+    }
+
+    _isDead(){
+        return !this.health <= 0
+    }
+
     _animate(){
         if (this.aim === "l"){
             this.img.src = "img/rectAmarillol.PNG";
@@ -89,5 +97,12 @@ class Soldier{
     }
     _isCrouch(){
         return false
+    }
+
+    _hit(b) {
+        const colX = b.x + b.w > this.x && b.x < this.x + this.w
+        const colY = b.y + b.h > this.y && b.y < this.y + this.h
+  
+        return colX && colY
     }
 }
