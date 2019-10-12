@@ -10,6 +10,9 @@ class Soldier{
         this.vy = 0;
         this.g = 0.05;
 
+        this.dx = 0;
+        this.dy = 0;
+
         this.health = 20;
 
         this.actions = {
@@ -31,6 +34,10 @@ class Soldier{
         this.img.levels = 2;
 
         this.tickShoot = 0;
+
+        this.nextMoveX;
+        this.angle;
+
     }
 
     draw() {
@@ -53,9 +60,14 @@ class Soldier{
         }
     }
     
-    move() {
+    move(charX, charY) {
         this._animate();
+        this._nextMove();
         this.x += this.vx;
+        this.dx = charX - this.x;
+        this.dy = charY - this.y;
+        this.angle = Math.atan2(this.dy,this.dx);
+
 
         if(this.x + this.w/2 <= 0){
             this.vx = 0.1
@@ -101,8 +113,17 @@ class Soldier{
 
     _hit(b) {
         const colX = b.x + b.w > this.x && b.x < this.x + this.w
-        const colY = b.y + b.h > this.y && b.y < this.y + this.h
+        const colY = b.y + b.y > this.y && b.y < this.y + this.h
   
         return colX && colY
+    }
+
+    _nextMove(){
+        this.nextMoveX = this._rand(0, this.ctx.canvas.width)
+        const dx = this.nextMoveX -this.x
+    }
+
+    _rand(b,a){
+        return Math.floor(Math.random() * b + a)
     }
 }

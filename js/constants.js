@@ -1,9 +1,9 @@
 const FPS = "1000/60"
-const arrUp = 38;
-const arrDown = 40;
-const arrLeft = 37;
-const arrRight = 39;
-const aKey = 65;
+const Wkey = 87;
+const Skey = 83;
+const Akey = 65;
+const Dkey = 68;
+const SPACE = 32;
 const sKey = 83;
 
 
