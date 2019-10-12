@@ -50,6 +50,7 @@ class Game {
       _draw(){
         this.bg.draw();
         this.char.draw();
+        this.char.update();
         this.soldiers.forEach(s => s.draw())
       }
 
@@ -69,7 +70,7 @@ class Game {
         }
 
         this.char.move();
-        this.soldiers.forEach(s => s.move())
+        this.soldiers.forEach(s => s.move(this.char.x, this.char.y))
         
       }
 

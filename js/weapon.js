@@ -6,38 +6,15 @@ class Weapon {
     }
   
     shoot() {
-      this.tick++
-      if (this.tick >= 32){
-        if (this.shooter._isCrouch()) {
-            this.bullets.push(
-                new Bullet(
-                    this.shooter.ctx,
-                    this.shooter.x + this.shooter.w * 0.75,
-                    this.shooter.y - this.shooter.h * 0.55,
-                    this.shooter.aim
-                )
-            )
-        } else if (this.shooter._isJumping()) {
-          this.bullets.push(
-            new Bullet(
-                this.shooter.ctx,
-                this.shooter.x + this.shooter.w * 0.75,
-                this.shooter.y + this.shooter.h*0.5,
-                this.shooter.aim
-            )
+    this.bullets.push(
+        new Bullet(
+            this.shooter.ctx,
+            this.shooter.x + this.shooter.w,
+            this.shooter.y + this.shooter.h0/2,
+            Math.cos(this.shooter.angle),
+            Math.sin(this.shooter.angle)
         )
-        } else {
-            this.bullets.push(
-                new Bullet(
-                    this.shooter.ctx,
-                    this.shooter.x + this.shooter.w * 0.75,
-                    this.shooter.y0 + this.shooter.h * 0.5,
-                    this.shooter.aim
-                )
-            )
-        }
-        this.tick = 0;
-      }
+    )  
     }
   
     clearBullets() {
@@ -49,7 +26,7 @@ class Weapon {
     }
   
     move() {
-      this.bullets.forEach(b => b.move())
+      this.bullets.forEach(b => b.update())
   
     }
 
@@ -59,7 +36,8 @@ class Weapon {
             this.shooter.ctx,
             this.shooter.x + this.shooter.w * 0.75,
             this.shooter.y + this.shooter.h * 0.5,
-            this.shooter.aim
+            Math.cos(this.shooter.angle),
+            Math.sin(this.shooter.angle)
         ))
     }
   }

@@ -4,13 +4,18 @@ class Character {
         this.x = 100;
         this.h0 = 45;
         this.h = this.h0;
-        this.w = 40;
+        this.w = 30;
         this.y0 = 150 - this.h0;
         this.y = this.y0;
-
+        this.angle;
         this.vx = 0;
         this.vy = 0;
         this.g = 0.05;
+
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.dx = 0;
+        this.dy = 0;
 
         this.health = 100;
 
@@ -23,27 +28,30 @@ class Character {
             shoot: false
         }
 
-        this.aim = "r";
-
         this.weapons = [];
         this.weapons.push(new Weapon(this));
 
         this.img = new Image();
-        this.img.src = "img/marcoR.png";
-        this.img.frames = 8;
+        this.img.src = "img/marcoTest.png";
+        this.img.frames = 1;
         this.img.frameIndex = 1;
         this.img.levels = 2;
+        this.sx = 0;
+        this.sy = 0;
+        
+        this.sh = 400;
         this._setListeners();
         this.ticks = 0;
     }
 
     draw() {
+
         this.ctx.drawImage(
             this.img,
-            0, // sx
-            0, // sy
+            this.sx, // sx
+            this.sy, // sy
             this.img.width, // sw
-            this.img.height, // sh
+            this.img.height/this.img.levels, // sh
             this.x, // dx
             this.y, // dy
             this.w, // dw
@@ -51,6 +59,13 @@ class Character {
         )
 
         this.weapons[0].draw()
+    }
+
+    update(){
+        this.dx = this.mouseX - this.x - this.w
+        this.dy = this.mouseY - this.y - this.h0*2
+        this.angle = Math.atan2(this.dy,this.dx)
+        //console.log(`x: ${this.dx} y: ${this.dy} angle:${this.angle}`)
     }
 
     move() {
@@ -96,31 +111,35 @@ class Character {
     _setListeners() {
         document.onkeydown = e => this._switchAction(e.keyCode, true)
         document.onkeyup = e => this._switchAction(e.keyCode, false)
+        canvas.onmousemove = e => this._setMouseCoords(e)
+        canvas.onmousedown = e => this._shoot()
+    }
+
+    _setMouseCoords(e){
+        this.mouseX = (e.clientX - canvas.offsetWidth) ;
+        this.mouseY = (e.clientY - canvas.offsetHeight) ;
+    }
+
+    _shoot(){
+        this.weapons[0].shoot()
     }
 
     _applyActions() {
 
-        if (this.actions.up) {
-            this.img.src = "img/marcoU.PNG";
-            this.aim = "u";
-        } else {
-            this._stand()
-        }
-
         if (this.actions.right) {
             this.vx = 0.5
-            this.img.src = "img/marcoR.png";
-            this.aim = "r";
+            this.sy = 400
         } else if (this.actions.left) {
             this.vx = -0.5
-            this.img.src = "img/marcoL.png";
-            this.aim = "l";
+            this.sy = 0
         } else {
             this.vx = 0
         }
 
         if (this.actions.down) {
             this._crouch()
+        } else {
+            this._stand()
         }
 
         if (this.actions.jump) {
@@ -162,29 +181,26 @@ class Character {
     _switchAction(key, apply) {
 
         switch (key) {
-            case arrDown:
+            case Skey:
                 this.actions.down = apply
                 break;
 
-            case arrUp:
-                this.actions.up = apply
-                break;
-
-            case arrLeft:
-                this.actions.left = apply
-                break;
-
-            case arrRight:
-                this.actions.right = apply
-                break;
-
-            case aKey:
+            case Wkey:
                 this.actions.jump = apply
                 break;
 
-            case sKey:
-                this.actions.shoot = apply
+            case Akey:
+                this.actions.left = apply
                 break;
+
+            case Dkey:
+                this.actions.right = apply
+                break;
+
+            /*case SPACE:
+                this.actions.shoot = apply
+                break;*/
+
         }
         
     }
