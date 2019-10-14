@@ -17,7 +17,9 @@ class Character {
         this.dx = 0;
         this.dy = 0;
 
-        this.health = 100;
+        this.name = "P1"
+        this.maxHealth = 200;
+        this.health = 200;
 
         this.actions = {
             right: false,
@@ -33,25 +35,22 @@ class Character {
 
         this.img = new Image();
         this.img.src = "img/marcoTest.png";
-        this.img.frames = 1;
-        this.img.frameIndex = 1;
-        this.img.levels = 2;
-        this.sx = 0;
-        this.sy = 0;
+        this.img.frames = 2;
+        this.img.frameIndex = 0;
+        this.img.framesPerSide = 1;
         
-        this.sh = 400;
         this._setListeners();
-        this.ticks = 0;
+        this.tick = 0;
     }
 
     draw() {
 
         this.ctx.drawImage(
             this.img,
-            this.sx, // sx
-            this.sy, // sy
-            this.img.width, // sw
-            this.img.height/this.img.levels, // sh
+            this.img.frameIndex *  this.img.width/this.img.frames, // sx
+            0, // sy
+            this.img.width/this.img.frames, // sw
+            this.img.height, // sh
             this.x, // dx
             this.y, // dy
             this.w, // dw
@@ -59,6 +58,7 @@ class Character {
         )
 
         this.weapons[0].draw()
+        this._animate();
     }
 
     update(){
@@ -69,7 +69,7 @@ class Character {
     }
 
     move() {
-        this._animate();
+        
         this._applyActions();
         this.x += this.vx;
 
@@ -128,10 +128,10 @@ class Character {
 
         if (this.actions.right) {
             this.vx = 0.5
-            this.sy = 400
+            //this.sx = this.img.width/2
         } else if (this.actions.left) {
             this.vx = -0.5
-            this.sy = 0
+           // this.sx = 0
         } else {
             this.vx = 0
         }
@@ -197,10 +197,6 @@ class Character {
                 this.actions.right = apply
                 break;
 
-            /*case SPACE:
-                this.actions.shoot = apply
-                break;*/
-
         }
         
     }
@@ -213,12 +209,21 @@ class Character {
     }
 
     _animate() {
-        // this.tick++
+        this.tick++
 
-        // if (this.tick >= this.img.frames) {
-        //   this.img.frameIndex++
-        //   this.tick = 0
-        // }
+        if (this.tick > 32) {
+            this.tick = 0
+            this.img.frameIndex++
+        }
 
+        if (this.dx >= 0){
+            if (this.img.frameIndex === this.img.frames) {
+                this.img.frameIndex = 1
+            }
+        } else {
+            if (this.img.frameIndex === this.img.frames - this.img.framesPerSide) {
+                this.img.frameIndex = 0
+            }
+        }
     }
 }

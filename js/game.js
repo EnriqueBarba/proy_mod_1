@@ -6,6 +6,7 @@ class Game {
 
         this.bg = new Background(ctx);
         this.char = new Character(ctx);
+        this.charHp = new HpBar(ctx, 30, 10, 60, 10)
         this.soldiers = [];
         this.tickSoldier = 0;
     }
@@ -49,8 +50,10 @@ class Game {
 
       _draw(){
         this.bg.draw();
+        this.charHp.draw(this.char);
         this.char.draw();
         this.char.update();
+        this.charHp.draw(this.char);
         this.soldiers.forEach(s => s.draw())
       }
 
@@ -63,6 +66,7 @@ class Game {
           if (this.bg.x < -3150 && this.bg.y <= 0){
             this.bg.y += 0.27;
           }
+
         } 
 
         if(this._checkCharBarricade()){
@@ -141,7 +145,7 @@ class Game {
           } 
 
         } else {
-          this.char.y0 = 150 - this.char.h0
+            this.char.y0 = 150 - this.char.h0   
         } 
 
       }

@@ -8,7 +8,7 @@ class Barricade {
         this.h = h
 
         this.img = new Image();
-        this.img.src = "img/rectAmarillol.PNG";
+        this.img.src = "img/vacio.png";
     }
 
     draw(){

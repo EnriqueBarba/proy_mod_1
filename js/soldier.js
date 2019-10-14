@@ -2,8 +2,8 @@ class Soldier{
     constructor(ctx){
         this.ctx = ctx;
         this.x = 300;
-        this.h = 45;
-        this.w = 40;
+        this.h = 40;
+        this.w = 35;
         this.y = 150 - this.h;
 
         this.vx = 0;
@@ -28,12 +28,14 @@ class Soldier{
         this.weapon = new Weapon(this);
 
         this.img = new Image();
-        this.img.src = "img/rectAmarillol.PNG";
-        this.img.frames = 8;
-        this.img.frameIndex = 1;
-        this.img.levels = 2;
+        this.img.src = "img/sEnemy.png";
+        this.img.frames = 4;
+        this.img.framesPerSide = 2;
+        
+        this.img.frameIndex = 0;       
 
         this.tickShoot = 0;
+        this.tick = 0;
 
         this.nextMoveX;
         this.angle;
@@ -43,9 +45,9 @@ class Soldier{
     draw() {
         this.ctx.drawImage(
             this.img,
-            0, // sx
+            this.img.frameIndex * this.img.width / this.img.frames, // sx
             0, // sy
-            this.img.width, // sw
+            this.img.width / this.img.frames, // sw
             this.img.height, // sh
             this.x, // dx
             this.y, // dy
@@ -54,6 +56,7 @@ class Soldier{
         )
 
         this.weapon.draw()
+        this._animate();
         
         if (this.tickShoot++ > 10000) {
             this.tickShoot = 0
@@ -61,7 +64,7 @@ class Soldier{
     }
     
     move(charX, charY) {
-        this._animate();
+
         this._nextMove();
         this.x += this.vx;
         this.dx = charX - this.x;
@@ -97,23 +100,38 @@ class Soldier{
     }
 
     _animate(){
-        if (this.aim === "l"){
-            this.img.src = "img/rectAmarillol.PNG";
-        } else if (this.aim === "r"){
-            this.img.src = "img/rectAzul.PNG";
+        this.tick++;
+
+        if (this.tick > 32) {
+            this.tick = 0
+            this.img.frameIndex++
         }
+      
+        if (this.dx >= 0){
+
+            if (this.img.frameIndex === this.img.frames) {
+                this.img.frameIndex = 2
+            }
+
+        } else {
+
+            if (this.img.frameIndex === this.img.frames - this.img.framesPerSide) {
+                this.img.frameIndex = 0
+            }
+
+        }
+
+
     }
 
     _isJumping(){
         return false
     }
-    _isCrouch(){
-        return false
-    }
+    
 
     _hit(b) {
         const colX = b.x + b.w > this.x && b.x < this.x + this.w
-        const colY = b.y + b.y > this.y && b.y < this.y + this.h
+        const colY = b.y + b.h > this.y && b.y < this.y + this.h
   
         return colX && colY
     }
