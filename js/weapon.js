@@ -35,6 +35,8 @@ class Weapon {
       )
 
     }
+    this.shooter.shotAudio.volume = 0.3
+    this.shooter.shotAudio.play();
 
   }
 
@@ -53,7 +55,7 @@ class Weapon {
 
   _soldierShoot() {
 
-    this.color = `red`;
+    this.color = "red";
     const check = this.shooter.dx >= 0;
 
     if (check) {
@@ -83,6 +85,8 @@ class Weapon {
       )
 
     }
+    this.shooter.shotAudio.volume = 0.3
+    this.shooter.shotAudio.play();
 
   }
 

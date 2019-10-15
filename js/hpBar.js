@@ -15,8 +15,8 @@ class HpBar{
         this.ctx.font = "12px Roboto";
         this.ctx.fillText(
           entity.name,
-          10,
-          20
+          this.x - 20,
+          this.y + 10
         );
         this.ctx.fillStyle = "rgb(234,1,1)";
         this.ctx.beginPath();

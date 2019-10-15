@@ -41,6 +41,8 @@ class Character {
         
         this._setListeners();
         this.tick = 0;
+
+        this.shotAudio = new Audio("audio/charGun.mp3");
     }
 
     draw() {

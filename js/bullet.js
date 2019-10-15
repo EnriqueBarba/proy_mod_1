@@ -28,7 +28,7 @@ class Bullet {
     }
   
     isVisible() {
-      return !(this.x >= this.ctx.canvas.width || this.x <= 0 )
+      return !(this.x >= this.ctx.canvas.width || this.x <= 0 || this.y >= this.ctx.canvas.height || this.y <= 0 )
     }
 
   }

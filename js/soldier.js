@@ -1,30 +1,22 @@
 class Soldier{
     constructor(ctx){
         this.ctx = ctx;
-        this.x = 300;
+        const delante = this.ctx.canvas.width + 50;
+        const detras = -50
+        this.x = Math.floor(Math.random() * (1 - (-1) + 1) + (-1)) > 0 ? delante : detras;
         this.h = 40;
         this.w = 35;
         this.y = 150 - this.h;
 
         this.vx = 0;
         this.vy = 0;
+        this.v = 0.2;
         this.g = 0.05;
 
         this.dx = 0;
         this.dy = 0;
 
         this.health = 20;
-
-        this.actions = {
-            right: false,
-            left: false,
-            up: false,
-            down: false,
-            jump: false,
-            shoot: false
-        }
-
-        this.aim = "l";
         this.weapon = new Weapon(this);
 
         this.img = new Image();
@@ -38,7 +30,11 @@ class Soldier{
         this.tick = 0;
 
         this.nextMoveX;
+        this.nextMoveY;
         this.angle;
+
+        this.deadAudio = new Audio("audio/EnemyDead.mp3");
+        this.shotAudio = new Audio("audio/gun.mp3");
 
     }
 
@@ -61,31 +57,17 @@ class Soldier{
         if (this.tickShoot++ > 10000) {
             this.tickShoot = 0
         }
+
     }
     
     move(charX, charY) {
 
         this._nextMove();
+       
         this.x += this.vx;
         this.dx = charX - this.x;
         this.dy = charY - this.y;
         this.angle = Math.atan2(this.dy,this.dx);
-
-
-        if(this.x + this.w/2 <= 0){
-            this.vx = 0.1
-        } else if( this.x + this.w/2 >= this.ctx.canvas.width ){
-            this.vx = -0.1
-        }
-
-        if (this.x + this.w/2 >= this.ctx.canvas.width * 0.6){
-            this.aim = "l"
-        }
-
-        
-        if (this.x + this.w/2 <= this.ctx.canvas.width * 0.6){
-            this.aim = "r"
-        }
 
         this.weapon.move()
 
@@ -96,7 +78,7 @@ class Soldier{
     }
 
     _isDead(){
-        return !this.health <= 0
+        return this.health <= 0
     }
 
     _animate(){
@@ -137,11 +119,14 @@ class Soldier{
     }
 
     _nextMove(){
-        this.nextMoveX = this._rand(0, this.ctx.canvas.width)
+        this.nextMoveX = this._rand(0, this.ctx.canvas.width-this.x); 
         const dx = this.nextMoveX -this.x
+
+        const angl = Math.atan2(0, dx);
+        this.vx = Math.cos(angl) * this.v;
     }
 
     _rand(b,a){
-        return Math.floor(Math.random() * b + a)
+        return Math.floor(Math.random() * a) + b
     }
 }
