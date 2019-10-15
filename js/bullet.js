@@ -1,9 +1,9 @@
 class Bullet {
-    constructor(ctx, x, y, dx, dy) {
+    constructor(ctx, x, y, dx, dy, color) {
       this.ctx = ctx
       this.x = x
       this.y = y
-      this.r = 4
+      this.r = 3
       this.w = this.r
       this.h = this.r
       this.dx = dx;
@@ -11,7 +11,7 @@ class Bullet {
   
       this.dmg = 10
   
-      this.color = `lime`
+      this.color = color
     }
   
     draw() {
@@ -28,7 +28,7 @@ class Bullet {
     }
   
     isVisible() {
-      return !(this.x >= this.ctx.canvas.width || this.x <= 0 )
+      return !(this.x >= this.ctx.canvas.width || this.x <= 0 || this.y >= this.ctx.canvas.height || this.y <= 0 )
     }
 
   }

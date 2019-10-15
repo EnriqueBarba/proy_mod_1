@@ -8,7 +8,7 @@ class Platform {
         this.h = h
 
         this.img = new Image();
-        this.img.src = "img/rectAmarillol.PNG";
+        this.img.src = "img/vacio.png";
     }
 
     draw() {
@@ -30,24 +30,13 @@ class Platform {
     
     move() {
         this.x -= 0.5;
-
-
     }
 
     collide(char) {
 
-        const colX = char.x + char.w/2 > this.x && char.x + char.w/2 < this.x + this.w
-
+        const colX = char.x >= this.x && char.x < this.x + this.w
         return colX 
-        
-        char.x + char.w/2 > this.x  && char.x + char.w/2 < this.x + this.w 
-        
-        //const colX = char.x + char.w/2 > this.x && char.x < this.x + this.w
-        //const colY = char.y + char.h > this.y && char.y < this.y + this.h
-            
-
 
     }
-
 
 }

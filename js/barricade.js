@@ -8,7 +8,7 @@ class Barricade {
         this.h = h
 
         this.img = new Image();
-        this.img.src = "img/rectAmarillol.PNG";
+        this.img.src = "img/newBarricade.png";
     }
 
     draw(){
@@ -16,8 +16,8 @@ class Barricade {
             this.img,
             0, // sx
             0, // sy
-            10, // sw
-            10, // sh
+            this.img.width, // sw
+            this.img.height, // sh
             this.x, // dx
             this.y, // dy
             this.w, // dw
@@ -28,7 +28,6 @@ class Barricade {
 
     move(){
         this.x -= 0.5;
-
     }
 
     collide(el) {
@@ -36,6 +35,13 @@ class Barricade {
         const colY = el.y + el.h > this.y && el.y < this.y + this.h
 
         return colX && colY
-
     }
+
+    charCollide(el) {
+        const colX = el.x + el.w/2 >= this.x && el.x < this.x + this.w
+        const colY = el.y + el.h >= this.y && el.y < this.y + this.h
+
+        return colX && colY
+    }
+
 }
